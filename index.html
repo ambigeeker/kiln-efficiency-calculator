@@ -3,99 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kiln Thermal & Drying Efficiency Calculator</title>
+    <title>Industrial Kiln Thermal, Quality & Economic Suite</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Chart.js CDN for plotting drying curves -->
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
     <header class="app-header">
-        <h1>Kiln Thermal & Drying Efficiency Calculator ♨️</h1>
-        <p>Thermodynamic drying simulation, fuel consumption analysis, and moisture kinetic curves</p>
+        <h1>Industrial Kiln Thermal & Process Suite ♨️</h1>
+        <p>Thermodynamic drying kinetics, moisture compliance, and batch production economics</p>
     </header>
 
     <main class="dashboard-grid">
-        <!-- Configuration Card -->
+        <!-- Input Parameters Section -->
         <section class="card config-card">
-            <h2>Process Parameters</h2>
+            <h2>Batch & Process Parameters</h2>
             <form id="calc_form">
+                <!-- Group 1: Mass & Moisture Dynamics -->
+                <div class="section-title">1. Moisture & Mass Conservation</div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="initial_weight">Initial Wet Mass ($W_i$, kg)</label>
-                        <input type="number" id="initial_weight" step="0.1" value="100" required>
+                        <input type="number" id="initial_weight" step="0.5" value="100" required>
                     </div>
                     <div class="form-group">
-                        <label for="final_weight">Final Dry Mass ($W_f$, kg)</label>
-                        <input type="number" id="final_weight" step="0.1" value="35" required>
+                        <label for="mc_initial">Initial Moisture ($MC_i$, % w.b.)</label>
+                        <input type="number" id="mc_initial" step="0.1" max="99" min="1" value="75.0" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="drying_time">Total Duration (Hours)</label>
-                        <input type="number" id="drying_time" step="0.5" value="6" required>
+                        <label for="mc_target">Target Moisture ($MC_f$, % w.b.)</label>
+                        <input type="number" id="mc_target" step="0.1" max="95" min="1" value="12.0" required>
                     </div>
+                    <div class="form-group">
+                        <label for="drying_time">Total Duration (Hours)</label>
+                        <input type="number" id="drying_time" step="0.5" min="0.5" value="6.0" required>
+                    </div>
+                </div>
+
+                <!-- Group 2: Kiln Chamber Thermodynamics -->
+                <div class="section-title">2. Thermal Parameters</div>
+                <div class="form-row">
                     <div class="form-group">
                         <label for="chamber_temp">Chamber Temp (°C)</label>
                         <input type="number" id="chamber_temp" step="1" value="75" required>
                     </div>
+                    <div class="form-group">
+                        <label for="ambient_temp">Ambient Temp (°C)</label>
+                        <input type="number" id="ambient_temp" step="1" value="28" required>
+                    </div>
+                </div>
+
+                <!-- Group 3: Energy Source & Process Economics -->
+                <div class="section-title">3. Fuel & Production Economics</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fuel_type">Fuel / Thermal Source</label>
+                        <select id="fuel_type">
+                            <option value="charcoal" data-lhv="29.0" data-unit="kg">Charcoal (29.0 MJ/kg)</option>
+                            <option value="fuelwood" data-lhv="15.5" data-unit="kg">Hardwood / Briquettes (15.5 MJ/kg)</option>
+                            <option value="lpg" data-lhv="46.1" data-unit="kg">LPG Gas (46.1 MJ/kg)</option>
+                            <option value="electric" data-lhv="3.6" data-unit="kWh">Electric Heating (3.6 MJ/kWh)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fuel_used" id="lbl_fuel_used">Fuel Consumed (kg)</label>
+                        <input type="number" id="fuel_used" step="0.1" min="0.1" value="12.0" required>
+                    </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="fuel_type">Thermal Source / Fuel</label>
-                        <select id="fuel_type">
-                            <option value="charcoal" data-lhv="29.0">Charcoal (29.0 MJ/kg)</option>
-                            <option value="fuelwood" data-lhv="15.5">Dry Hardwood / Briquettes (15.5 MJ/kg)</option>
-                            <option value="lpg" data-lhv="46.1">LPG (46.1 MJ/kg)</option>
-                            <option value="electric" data-lhv="3.6">Electric Heating (3.6 MJ/kWh)</option>
-                        </select>
+                        <label for="fuel_price" id="lbl_fuel_price">Fuel Unit Cost (Cost/unit)</label>
+                        <input type="number" id="fuel_price" step="1" min="0" value="450" required>
                     </div>
-                    <div class="button-group">
-    <button type="submit" class="btn btn-primary">Compute Thermal Analytics</button>
-    <button type="button" id="btn_print" class="btn btn-secondary" onclick="window.print()">Export Batch Report 📄</button>
-</div>
-                    <div class="form-group">
-                        <label for="fuel_used">Fuel Consumed (kg or kWh)</label>
-                        <input type="number" id="fuel_used" step="0.1" value="12" required>
+                    <div class="form-group align-end">
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">Recalculate Suite</button>
+                            <button type="button" class="btn btn-secondary" onclick="window.print()">Export PDF 📄</button>
+                        </div>
                     </div>
                 </div>
-
-                <button type="submit" class="btn btn-primary">Compute Thermal Analytics</button>
             </form>
         </section>
 
         <!-- KPI Metrics Grid -->
         <section class="metrics-container">
+            <!-- Metric 1 -->
             <div class="metric-card">
-                <span class="metric-label">Water Evaporated</span>
-                <span class="metric-value" id="val_water_removed">0.0 <small>kg</small></span>
-                <span class="metric-sub" id="val_yield_loss">0% mass loss</span>
+                <span class="metric-label">Dry Yield Mass ($W_f$)</span>
+                <span class="metric-value" id="val_final_weight">0.0 <small>kg</small></span>
+                <span class="metric-sub" id="val_water_removed">0.0 kg water evaporated</span>
             </div>
 
+            <!-- Metric 2 -->
             <div class="metric-card">
                 <span class="metric-label">Drying Rate</span>
                 <span class="metric-value" id="val_drying_rate">0.0 <small>kg/h</small></span>
-                <span class="metric-sub">Average water removal</span>
+                <span class="metric-sub" id="val_dry_basis">MC (db): 0.0%</span>
             </div>
 
-            <div class="metric-card">
-                <span class="metric-label">Specific Energy (SEC)</span>
-                <span class="metric-value" id="val_sec">0.0 <small>MJ/kg</small></span>
-                <span class="metric-sub">Energy per kg H₂O</span>
-            </div>
-
+            <!-- Metric 3 -->
             <div class="metric-card highlight">
-                <span class="metric-label">Thermal Efficiency ($\eta$)</span>
+                <span class="metric-label">Thermal Efficiency ($\eta_{th}$)</span>
                 <span class="metric-value" id="val_efficiency">0.0 <small>%</small></span>
-                <span class="metric-sub" id="val_eval_text">Theoretical vs Actual</span>
+                <span class="metric-sub" id="val_sec">SEC: 0.0 MJ/kg</span>
+            </div>
+
+            <!-- Metric 4 -->
+            <div class="metric-card">
+                <span class="metric-label">Product Energy Cost</span>
+                <span class="metric-value" id="val_unit_energy_cost">0.0 <small>/kg dry</small></span>
+                <span class="metric-sub" id="val_total_fuel_cost">Total Cost: 0.00</span>
+            </div>
+
+            <!-- Compliance Status Banner -->
+            <div class="metric-card compliance-card" id="compliance_card">
+                <span class="metric-label">Quality Compliance & Stability</span>
+                <span class="compliance-badge" id="val_compliance_badge">Checking...</span>
+                <span class="metric-sub" id="val_compliance_desc">Target moisture analysis</span>
             </div>
         </section>
 
-        <!-- Visualization Canvas -->
+        <!-- Dual-Axis Visual Simulation -->
         <section class="card chart-card">
-            <h2>Simulated Moisture Removal Kinetic Curve</h2>
+            <h2>Simulated Mass Loss & Moisture Decay Trajectory</h2>
             <div class="chart-wrapper">
                 <canvas id="dryingChart"></canvas>
             </div>
@@ -105,7 +140,3 @@
     <script src="app.js"></script>
 </body>
 </html>
-<div class="button-group">
-    <button type="submit" class="btn btn-primary">Compute Thermal Analytics</button>
-    <button type="button" id="btn_print" class="btn btn-secondary" onclick="window.print()">Export Batch Report 📄</button>
-</div>

@@ -9,16 +9,16 @@ body {
     background-color: #0b1120;
     color: #e2e8f0;
     min-height: 100vh;
-    padding: 32px 20px;
+    padding: 28px 20px;
 }
 
 .app-header {
-    max-width: 1100px;
-    margin: 0 auto 28px auto;
+    max-width: 1200px;
+    margin: 0 auto 24px auto;
 }
 
 .app-header h1 {
-    font-size: 1.6rem;
+    font-size: 1.65rem;
     font-weight: 700;
     color: #f8fafc;
 }
@@ -30,16 +30,16 @@ body {
 }
 
 .dashboard-grid {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 960px) {
     .dashboard-grid {
-        grid-template-columns: 420px 1fr;
+        grid-template-columns: 460px 1fr;
     }
     .chart-card {
         grid-column: span 2;
@@ -50,22 +50,37 @@ body {
     background-color: #1e293b;
     border: 1px solid #334155;
     border-radius: 12px;
-    padding: 24px;
+    padding: 22px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 .card h2 {
     font-size: 1.15rem;
     font-weight: 600;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     color: #f1f5f9;
+}
+
+.section-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 700;
+    color: #38bdf8;
+    margin: 16px 0 8px 0;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 4px;
+}
+
+.section-title:first-of-type {
+    margin-top: 0;
 }
 
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
 }
 
 .form-group {
@@ -73,20 +88,24 @@ body {
     flex-direction: column;
 }
 
+.align-end {
+    justify-content: flex-end;
+}
+
 label {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 500;
     color: #94a3b8;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
 }
 
 input, select {
     background-color: #0f172a;
     border: 1px solid #475569;
     border-radius: 8px;
-    padding: 10px 12px;
+    padding: 9px 12px;
     color: #f8fafc;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -96,27 +115,44 @@ input:focus, select:focus {
     box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
 }
 
-.btn {
+.button-group {
+    display: flex;
+    gap: 8px;
     width: 100%;
-    padding: 12px;
-    background-color: #0284c7;
-    color: #ffffff;
-    font-size: 0.95rem;
+}
+
+.btn {
+    flex: 1;
+    padding: 10px 8px;
+    font-size: 0.88rem;
     font-weight: 600;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 8px;
     transition: background-color 0.2s;
 }
 
-.btn:hover {
+.btn-primary {
+    background-color: #0284c7;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
     background-color: #0369a1;
+}
+
+.btn-secondary {
+    background-color: #334155;
+    color: #e2e8f0;
+}
+
+.btn-secondary:hover {
+    background-color: #475569;
 }
 
 .metrics-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 14px;
 }
 
@@ -124,7 +160,7 @@ input:focus, select:focus {
     background-color: #1e293b;
     border: 1px solid #334155;
     border-radius: 12px;
-    padding: 18px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -135,8 +171,21 @@ input:focus, select:focus {
     background: linear-gradient(180deg, #1e293b 0%, rgba(2, 132, 199, 0.1) 100%);
 }
 
+.compliance-card {
+    grid-column: span 2;
+    background-color: #182234;
+    border: 1px dashed #38bdf8;
+}
+
+.compliance-badge {
+    display: inline-block;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 8px 0 4px 0;
+}
+
 .metric-label {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #94a3b8;
     text-transform: uppercase;
     font-weight: 600;
@@ -144,14 +193,14 @@ input:focus, select:focus {
 }
 
 .metric-value {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
     font-weight: 700;
     color: #f8fafc;
-    margin: 8px 0 4px 0;
+    margin: 6px 0 4px 0;
 }
 
 .metric-value small {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     color: #94a3b8;
 }
 
@@ -162,24 +211,11 @@ input:focus, select:focus {
 
 .chart-wrapper {
     position: relative;
-    height: 320px;
+    height: 340px;
     width: 100%;
-}/* Button Group */
-.button-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 12px;
 }
 
-.btn-secondary {
-    background-color: #334155;
-}
-
-.btn-secondary:hover {
-    background-color: #475569;
-}
-
-/* Print / PDF Export Stylesheet */
+/* Print/PDF Export Stylesheet */
 @media print {
     body {
         background-color: #ffffff !important;
@@ -187,13 +223,8 @@ input:focus, select:focus {
         padding: 0 !important;
     }
 
-    .app-header h1 {
+    .app-header h1, .app-header p, .card h2, .metric-value, .metric-label, .section-title {
         color: #0f172a !important;
-        font-size: 1.4rem;
-    }
-
-    .app-header p {
-        color: #475569 !important;
     }
 
     .btn, .btn-secondary, button {
@@ -207,13 +238,8 @@ input:focus, select:focus {
         color: #0f172a !important;
     }
 
-    .card h2, .metric-value {
-        color: #0f172a !important;
-    }
-
-    .metric-card.highlight {
-        border-color: #0284c7 !important;
-        background: #f8fafc !important;
+    .metric-sub {
+        color: #0284c7 !important;
     }
 
     input, select {
